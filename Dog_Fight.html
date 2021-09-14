@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Dog Fight!</title>
+		<!-- <link rel="stylesheet" type="text/css" href="style.css">	 -->
+		<style type="text/css">
+			
+body {
+	background-color: #cce2be;
+	text-align: center
+			}
+
+#bodyDiv {
+	width: 550px;
+	margin:  auto;
+	/*border:  solid 4px red;
+	border-radius:  10px;*/
+	padding: 5px;
+	position: relative;
+	color: red;
+	font-weight: bold;
+}
+
+
+#dogFightH1 {
+	font-size: 45px;
+	margin-top: 0px;
+	margin-bottom: 10px;
+	color: red;
+	font-family: monospace;
+}
+
+h2, h3 {
+	color: red;
+	font-family: monospace;
+	text-align: center;
+			}
+
+#fight {
+		color: red;
+		margin-bottom: 30px;
+			}
+input[type="text"] {
+margin: 5px;
+width: 25%;
+ }
+
+
+pre{
+width: 100%;
+display: inline-block;
+font-size: 7px;
+text-align: center;
+font-family: Ubuntu Mono, monospace !important;
+text-rendering: optimizeSpeed;
+margin:  auto
+}
+
+#dogCombatDiv {
+	display: none;
+
+	}
+
+#dogCombat  {
+	text-decoration: underline;
+	font-size: 30px;
+}
+
+#roundsNumberDiv {
+	display: none;
+}
+
+#roundsNumberH2 {
+	text-decoration: underline;
+	font-size: 30px;
+}
+
+#chooseRoundsDiv {
+	margin-top: 20px;
+	border-top: solid red 2px;
+	/*border-bottom: solid red 2px;*/
+	/*padding-bottom: 20px;*/
+}
+
+#nameEnterDiv {
+	border-top: solid red 2px;
+	margin-top: 20px;
+}
+
+#nameSubmit {
+	margin-top: 10px;
+}
+
+#dogNamesP {
+	font-size: 1.5em;
+}
+
+#roundsP {
+	font-size: 1.5em;
+	margin: 0 auto 0 auto;
+}
+
+#roundWinnerDiv {
+	display: none;
+	font-size: 1.5em;
+	border: dashed; red 2px;
+}	
+
+#winner {
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+#winLose {
+	margin-bottom: 2px;
+}
+
+#fight {
+	visibility: hidden;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#gameOverDiv {
+	font-size: 1.5em;
+		color: red;
+	font-weight: bold;
+}
+
+		</style>
+		
+
+
+	</head>
+	<body>
+	<audio src="Audio/dogBark.mp3" type="audio/mpeg" id="dogBark"></audio>
+	<audio src="Audio/dogSmallBark.mp3" type="audio/mpeg" id="dogSmallBark"></audio>
+	<audio src="Audio/dogFight.mp3" type="audio/mpeg" id="dogFightAudio"></audio>
+	<audio src="Audio/dogCry.mp3" type="audio/mpeg" id="dogCry"></audio>
+	<div id="bodyDiv">
+		<h1 id="dogFightH1">Dog Fight!</h1>
+		<!-- <img src="Images/angrydogs.gif"> -->
+		
+		<style type="text/css">
+@import url("https://fonts.googleapis.com/css?family=Inconsolata|Roboto+Mono|Ubuntu+Mono|Cutive+Mono");
+pre{
+display: inline-block;
+font-size: 7px;
+text-align: center;
+font-family: Ubuntu Mono, monospace !important;
+text-rendering: optimizeSpeed;
+}
+</style>
+<div id="dogImage">
+<pre style="font-size: 7px; font-family: monospace; line-height: 7px;">...........:*****::........::***::.............:::**::.........:*****:............
+..........:II**I***II*::*********************************::*II***I***I:...........
+...........*$$$$$VI**FVI***III********IIIII********III****IVI*IVV$$$$*............
+............INMN$$$$I****IIIIIVVI*****II*III****IVVIIIII****II$$$NNNV:............
+............*$NNN$VI*************I*****IVI*****I**************V$NNNN*.............
+............:$N$$$F**I********IIFI***IF***IF**IIFII*********I*I$$$N$:.............
+............:$$V$$IVI*****************$V*V$I*****************IIV$$$$*.............
+............I$$$$$V******************F$$$$$V******************V$$$$$V:............
+...........*$I$$$$I******************I$V$$VV******************I$$$$F$*............
+...........*I*I$$$I**I$$$IVVIII***II$$$$$$$$$III**IIIVVI$$$V**I$$$I*II............
+......****:II***F$I**IV$$****I$$$$$$NVI***IV$$$$$$$I****V$VI**I$VI**II:****.......
+......:*I$$$$****I*******IFV$$NN$VII**********IV$NN$$VVI*******I****V$$$I*:.......
+.......:*:*$$******I*****IIV$VI********IIII*******II$$FI*****I******VNI:*:........
+........:*:III***I*$$VVV$$$F******FV$$$$$$$$$VV******I$$$VVV$$**I***IF**:.........
+.........:II$I*****V$$$$VI*******$NN$$$$$N$$VNNN*******IV$$$$$******$II:..........
+........:VIV$I*****I$V$V******IFI$NNNN$NVN$NNNN$IVI******I$V$V******$$I*..........
+.......:F$I$$F*FIIIIIVI*****IV$$$VVV$V$NVN$V$VVV$$$$I*****IVIIIIIF*I$$II*:........
+..:::::::II$$$$$VIIIF******I$$$$$$$VV$$N$N$$VV$$$$$$$I******IIIIF$$$$$II*::::::...
+:*IIF$$$N$I$$NVII$$V******V$$$$$$$$$$$$III$$$$$$$$$$$$VI*****I$$VIV$$$FVN$$$VII*:.
+..::***IV$F$$FV$$$I******I$$$$$$$$$$$$$F$I$$$$$$$$$$$$$I******I$$$$I$$V$VI***::...
+....::**.*$$$I$$F***III**I$$$$$$$$$$$$VINVV$$$$$$$$$$$$I**III***I$$VV$$*.::::.....
+......IN$I$NVV$I*IV$NNN$VIIV$$$$$$$VVVV$$$VVVV$$$$$$$VIIV$NNN$VI*I$$VN$IVV........
+......*NNNNN$$V*I$N$NN$I$V$IIV$V$$FVN$$$N$$$$VI$$VVVII$V$I$NNN$$I*I$$NNNNI........
+......*$NNNNNNIIIVF$NNF****::**:VV::VI::F::I$::VV:*I::****INNNIVIII$NNNNN*........
+......:FNNN$NNVVIII$NNNFI******.II..*:..I..:*..II.******IINNNNIIIVV$N$NN$:........
+.......*$$*.:$VVF$I$NNNI*I***I**$$IINVIINIIVNII$$**I:**I*INNNNI$VVV$*.:I*.........
+.......:*::*$N$V$NVIVN$***:*:IV*INI:*$**V**$*:INI*VI.*:***$$$FV$$V$N$*:.*:........
+......:**INNNN$VVN$IVV*II***::I:*V*.:I::*::I:.*V*:I:.***II*F$IVN$V$NNNNV*::.......
+.....:*I$VI**:..*NN$I$N*F$II*:I**F$IV$VF$FF$VI$V**I::II$$*$$I$NNI..:**IV$VI*......
+....:***::::*III$NNNNVNF*$$NVI$$$NNNNN$$$$$NNNNN$$$IFN$$**NV$NNN$II*:::::***:.....
+.............*VNNNNNNNNNII$$NNNNN$$$$$$$$$$$$$$$NNNN$$$I*$NNNNNNNV*...............
+..............:*V$N$**$NNNN$N$$$NNNNNNN$$$NNNNNNNN$$N$NN$N$*:I$V*:................
+.................:**.*$IIIV$V$$$$$$$$$$$$$$$$$$$$$$$VVVIII$*.*:...................
+...................*.VNNI**I$$$$$$$$$$$$$$$$$$$$$$$$VI**INN$:::...................
+...................**N$*:**IIIVVV$$II*I$$$I*IV$VVVII****:*$NI*:...................
+...................*II*:::..::***III:.:$NN*.:II***::...::::I$*:...................
+...................**:..............:*:*NV:*:..............::*....................
+.....................................:**$**:......................................
+.......................................:I*:.......................................
+........................................::........................................</pre>
+
+		</div>
+		<div id="nameEnterDiv">
+		<h2 id="enterNames">Input details of dog combatants</h2>
+		<label>Dog 1:</label>
+		<input type="text" name="" id="dogGetName1" class="textBoxName" placeholder="Name">
+		<label>Breed:</label>
+		<select id="dogType1">
+			<option value=””>Rottweiler</option>
+			<option value=””>Chihuahua</option>
+			</select>
+			<label>Fighting Style:</label>
+		<select id="dogStyleSelect1">
+			<option value=””>Cautious</option>
+			<option value=””>Reckless</option>
+			</select>
+
+		<br>
+		<label>Dog 2:</label>
+		<input type="text" name="" id="dogGetName2" class="textBoxName" placeholder="Name">
+		<label>Breed:</label>
+		<select id="dogType2">
+				<option value=””>Rottweiler</option>
+				<option value=””>Chihuahua</option>
+		</select>
+		<label>Fighting Style:</label>
+		<select id="dogStyleSelect2">
+			<option value=””>Cautious</option>
+			<option value=””>Reckless</option>
+			</select>
+		<br>
+		<button id="nameSubmit" class="textBoxName">Submit</button>
+		</div>
+		<div id="dogCombatDiv">
+		<h2 id="dogCombat">Dog Combatants</h2>
+		<p id="dogNamesP"><span style="font-style: italic;"></span></p>
+		</div>
+		<div id="chooseRoundsDiv">
+		<h2 id="chooseRounds">Choose number of rounds</h2>
+		<input type="text" name="" id="roundNumberChoose">
+		<button id="roundsSubmit">Submit</button>
+		<div id="roundsNumberDiv">
+		<h2 id="roundsNumberH2"> Rounds</h2>
+		<p id="roundsP">10</p>
+		</div>
+		</div>
+		<br>
+		<br>
+		
+		<div id="roundWinnerDiv">
+		<p id="winner"></p>
+		<p id="winLose"></p>
+		</div>
+		<input type="button" id="fight" value="Fight!">
+	</div>
+	<div id="gameOverDiv">
+			
+		</div>
+
+	<script>
+
+		var dogs = [];
+		var roundNumber = 10
+		var dog1BreedMenu = document.getElementById("dogType1");
+		var dog2BreedMenu = document.getElementById("dogType2");
+		var dog1Breed = dog1BreedMenu.options[dog1BreedMenu.selectedIndex].text;
+		var dog2Breed = dog2BreedMenu.options[dog2BreedMenu.selectedIndex].text;
+		var dog1StyleMenu = document.getElementById("dogStyleSelect1");
+		var dog2StyleMenu = document.getElementById("dogStyleSelect2");
+		var dog1Style = dog1StyleMenu.options[dog1StyleMenu.selectedIndex].text;
+		var dog2Style = dog2StyleMenu.options[dog2StyleMenu.selectedIndex].text;
+
+
+		document.getElementById("nameSubmit").addEventListener("click", function() {
+			dog1Breed = dog1BreedMenu.options[dog1BreedMenu.selectedIndex].text;
+			dog2Breed = dog2BreedMenu.options[dog2BreedMenu.selectedIndex].text;
+			dog1Style = dog1StyleMenu.options[dog1StyleMenu.selectedIndex].text;
+			dog2Style = dog2StyleMenu.options[dog2StyleMenu.selectedIndex].text;
+
+			if (document.getElementById("dogGetName1").value == "") {
+				alert("Please enter Dog 1 name")
+			} else if (document.getElementById("dogGetName2").value == "") {
+				alert("Please enter Dog 2 name")
+			} else {
+			document.getElementById("dogNamesP").innerHTML = "Dog Fighter 1:" + document.getElementById("dogGetName1").value + " - " + dog1Style + " " + dog1Breed + "<br>Dog Fighter 2: " + document.getElementById("dogGetName2").value + " - " + dog2Style + " " +  dog2Breed;
+
+			var dogName1 = document.getElementById("dogGetName1").value;
+			var dogName2 = document.getElementById("dogGetName2").value;
+		    dogs.push(dogName1, dogName2);
+
+		    console.log(dogs);
+
+		    document.getElementById("dogBark").play();
+
+		    document.getElementById("nameEnterDiv").style.display = "none";
+		    document.getElementById("dogCombatDiv").style.display = "block";
+		}
+		})
+		document.getElementById("roundsSubmit").addEventListener("click", function() {
+			if (document.getElementById('roundNumberChoose').value == "") {
+				alert("Please enter number of rounds")
+
+			} else if (isNaN(document.getElementById('roundNumberChoose').value)) {
+				alert("Numbers only dickhead");
+			} else {
+			roundNumber = document.getElementById('roundNumberChoose').value;
+			document.getElementById("roundsNumberDiv").style.display = "initial";
+
+			document.getElementById("roundsNumberDiv").style.display = "initial";
+			document.getElementById("roundsP").innerHTML = roundNumber;
+		
+			document.getElementById("chooseRounds").style.display = "none";
+		    document.getElementById("roundNumberChoose").style.display = "none";
+		    document.getElementById("roundsSubmit").style.display = "none";
+		    document.getElementById("fight").style.visibility = "visible";
+
+		}
+		})
+		var dog1WinCount = 0;
+		var dog2WinCount = 0;
+		var roundCount = 0
+		
+
+		document.getElementById("fight").addEventListener("click", function(){
+
+
+			if (document.getElementById("dogGetName1").value == "") {
+				alert("Please enter Dog 1 name")
+			} else if (document.getElementById("dogGetName2").value == "") {
+				alert("Please enter Dog 2 name")
+			} else if (dogs.length === 0) {
+				alert("Please enter dog names and press submit")
+			}
+
+			else {
+
+			document.getElementById("roundsNumberDiv").style.display = "block";
+			document.getElementById("chooseRounds").style.display = "none";
+		    document.getElementById("roundNumberChoose").style.display = "none";
+		    document.getElementById("roundsSubmit").style.display = "none";
+		    document.getElementById("dogImage").style.display = "none";
+
+			
+			
+	    	var roundNumberMax = roundNumber - 1;
+	    	console.log(roundNumberMax);
+			var dogLoser = 0;
+			var dogWinner = Math.round(Math.random());
+				if (dogWinner == 1) {
+					dogLoser = 0;
+					dog2WinCount ++;
+				} else {
+					dogLoser = 1;
+					dog1WinCount ++;
+				}
+
+				if (dogWinner == 1 && dog2Breed == "Rottweiler" && roundCount < roundNumberMax) {
+					document.getElementById("dogFightAudio").play();
+				} else if (dogWinner == 1 && dog2Breed == "Chihuahua" && roundCount < roundNumberMax) {
+					document.getElementById("dogSmallBark").play();
+				} else if (dogWinner == 0 && dog1Breed == "Rottweiler" && roundCount < roundNumberMax) {
+					document.getElementById("dogFightAudio").play();
+				} else if (dogWinner == 0 && dog1Breed == "Chihuahua" && roundCount < roundNumberMax) {
+					document.getElementById("dogSmallBark").play();
+				}
+
+			roundCount ++;
+
+
+			var dogName1 = document.getElementById("dogGetName1").value;
+			var dogName2 = document.getElementById("dogGetName2").value;
+
+			document.getElementById("winner").innerHTML = dogs[dogWinner] + " dog is winner of round " + roundCount + "! ";
+
+			console.log(dogWinner, dogLoser);
+
+			document.getElementById("roundWinnerDiv").style.display = "block";
+
+			document.getElementById("winLose").innerHTML = dogName1 + ": " + dog1WinCount + "<br>" + dogName2 + ": " + dog2WinCount + "<br><br>	";
+
+			if (dog1WinCount > dog2WinCount) {
+				document.getElementById("winLose").innerHTML = document.getElementById("winLose").innerHTML +  dogName1 + " dog is winning."
+			}
+
+			else if (dog2WinCount > dog1WinCount) {
+				document.getElementById("winLose").innerHTML = document.getElementById("winLose").innerHTML +dogName2 + " dog is winning."
+			}
+
+			else {
+				document.getElementById("winLose").innerHTML = document.getElementById("winLose").innerHTML + "Dog fight is currently tied."
+			}
+				
+			}
+
+		if (roundCount >= 1) {
+			document.getElementById("fight").value = "Fight Again!";
+		}
+
+
+		if (roundCount >= roundNumber) {
+
+			document.getElementById("bodyDiv").style.display = "none";
+
+			if (dog1WinCount > dog2WinCount) {
+			document.getElementById("gameOverDiv").innerHTML = dogName1 + " dog is the winner."
+			+ "<h2>Final Score</h2>"
+			+ dogName1 + ": " + dog1WinCount + "<br>"
+			+ dogName2 + ": " + dog2WinCount +
+			 "<br><br> Refresh browser to play again"
+			document.getElementById("dogCry").play();
+		}
+
+			else if (dog2WinCount > dog1WinCount) {
+			document.getElementById("gameOverDiv").innerHTML = dogName2 + " dog is the winner."
+			+ "<h2>Final Score</h2>"
+			+ dogName1 + ": " + dog1WinCount + "<br>"
+			 + dogName2 + ": " + dog2WinCount +
+			"<br><br> Refresh browser to play again";
+			document.getElementById("dogCry").play();
+		} else {
+			document.getElementById("gameOverDiv").innerHTML = "Match is a tie. <br><br> Refresh browser to play again";
+			document.getElementById("dogCry").play();
+		}
+		}
+
+		}
+	)
+
+		
+
+
+
+
+	</script>
+	</body>
+</html>

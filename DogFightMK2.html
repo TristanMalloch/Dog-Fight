@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+<style type="text/css">
+
+body {
+	background-color: #dabd90;
+}
+
+#matchDiv {
+	display: none;
+}
+
+p {
+	font-size: 1.2em;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.dogFighterH {
+	text-align: center;
+	text-decoration: underline;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+#bodyDiv {
+	width: 500px;
+	margin: auto;
+}
+
+pre {
+display: inline-block;
+font-size: 7px;
+text-align: center;
+font-family: Ubuntu Mono, monospace !important;
+text-rendering: optimizeSpeed;
+width:  100%;
+margin: auto;
+}
+
+
+#dogImage {
+	margin:  auto;	
+}
+#dogFightH1 {
+	font-size: 45px;
+	margin-top: 0px;
+	margin-bottom: 10px;
+	color: red;
+	font-family: monospace;
+	text-align: center;
+}
+
+h2 {
+	text-align: center;
+	color: red;
+	text-decoration: underline;
+}
+
+label {
+	padding: 5px;
+}
+
+#roundNumberH, #roundWinnerH, #hitIndicator {
+	text-align: center;
+	margin-top: 2px;
+	margin-bottom: 10px;
+	color: red;
+}
+
+#roundNumberH {
+	text-decoration: underline;
+}
+
+#dog1EnterDiv {
+	float: left;
+	text-align: right;
+	margin: auto;
+	width: 48%;
+	color: red;
+	margin: 2px;
+	font-weight: bold;
+}
+
+.dog1Details, .dog2Details {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#dog2EnterDiv {
+	float: right;
+	text-align: left;
+	margin: auto;
+	width: 48%;
+	color: red;
+	margin: 2px;
+	font-weight: bold;
+}
+
+#dog1Div {
+	display: none;
+	float: left;
+	/*text-align: center;*/
+	margin: auto;
+	width: 47%;
+	color: red;
+	border: dotted 5px red;
+	border-radius: 15px;
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+
+#dog2Div {
+	display: none;
+	float: right;
+	/*text-align: center;*/
+	margin: auto;
+	width: 47%;
+	color: blue;
+	border: dotted 5px blue;
+	border-radius: 15px;
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+#fightButton, #coinButton, #nextRoundButton, #submitButton {
+	/*clear: left;
+	clear: right;*/
+	text-align: center;
+	position: relative;
+	left: 50%;
+	right: 50%;
+	-ms-transform: translate(-50%, -50%);
+  	transform: translate(-50%, -50%);
+ 	 margin: 5px;
+}
+
+#fightButton {
+	visibility: hidden;
+	width: 15%;
+	padding: 10px;
+	top: 10px;
+	color: whitesmoke;
+	background-color: red;
+}
+#coinButton {
+	visibility: hidden;
+	margin-top: 10px;
+}
+
+#nextRoundButton {
+	display: none;
+	top: 10px;
+}
+
+#coinButton {
+	top: 10px;
+}
+
+#dogTurnHeading {
+	color: red;
+	text-align: center;
+	padding: 5px;
+	position: relative;
+	top: 10px;
+}
+
+#hitIndicator {
+	clear: left;
+	clear: right;
+	margin: 0;
+}
+
+#dogGetName1, #dogGetName2 {
+	width: 60%;
+}
+
+#dogDetailsDiv {
+	border-top: dashed 3px red;
+	border-bottom: dashed 3px red;
+}
+
+ul {
+	margin-top: 10px;
+}
+
+
+
+</style>
+</head>
+<body>
+<div id="bodyDiv">
+	<h1 id="dogFightH1">Dog Fight!</h1>
+<pre id="dogImage">...........:*****::........::***::.............:::**::.........:*****:............
+..........:II**I***II*::*********************************::*II***I***I:...........
+...........*$$$$$VI**FVI***III********IIIII********III****IVI*IVV$$$$*............
+............INMN$$$$I****IIIIIVVI*****II*III****IVVIIIII****II$$$NNNV:............
+............*$NNN$VI*************I*****IVI*****I**************V$NNNN*.............
+............:$N$$$F**I********IIFI***IF***IF**IIFII*********I*I$$$N$:.............
+............:$$V$$IVI*****************$V*V$I*****************IIV$$$$*.............
+............I$$$$$V******************F$$$$$V******************V$$$$$V:............
+...........*$I$$$$I******************I$V$$VV******************I$$$$F$*............
+...........*I*I$$$I**I$$$IVVIII***II$$$$$$$$$III**IIIVVI$$$V**I$$$I*II............
+......****:II***F$I**IV$$****I$$$$$$NVI***IV$$$$$$$I****V$VI**I$VI**II:****.......
+......:*I$$$$****I*******IFV$$NN$VII**********IV$NN$$VVI*******I****V$$$I*:.......
+.......:*:*$$******I*****IIV$VI********IIII*******II$$FI*****I******VNI:*:........
+........:*:III***I*$$VVV$$$F******FV$$$$$$$$$VV******I$$$VVV$$**I***IF**:.........
+.........:II$I*****V$$$$VI*******$NN$$$$$N$$VNNN*******IV$$$$$******$II:..........
+........:VIV$I*****I$V$V******IFI$NNNN$NVN$NNNN$IVI******I$V$V******$$I*..........
+.......:F$I$$F*FIIIIIVI*****IV$$$VVV$V$NVN$V$VVV$$$$I*****IVIIIIIF*I$$II*:........
+..:::::::II$$$$$VIIIF******I$$$$$$$VV$$N$N$$VV$$$$$$$I******IIIIF$$$$$II*::::::...
+:*IIF$$$N$I$$NVII$$V******V$$$$$$$$$$$$III$$$$$$$$$$$$VI*****I$$VIV$$$FVN$$$VII*:.
+..::***IV$F$$FV$$$I******I$$$$$$$$$$$$$F$I$$$$$$$$$$$$$I******I$$$$I$$V$VI***::...
+....::**.*$$$I$$F***III**I$$$$$$$$$$$$VINVV$$$$$$$$$$$$I**III***I$$VV$$*.::::.....
+......IN$I$NVV$I*IV$NNN$VIIV$$$$$$$VVVV$$$VVVV$$$$$$$VIIV$NNN$VI*I$$VN$IVV........
+......*NNNNN$$V*I$N$NN$I$V$IIV$V$$FVN$$$N$$$$VI$$VVVII$V$I$NNN$$I*I$$NNNNI........
+......*$NNNNNNIIIVF$NNF****::**:VV::VI::F::I$::VV:*I::****INNNIVIII$NNNNN*........
+......:FNNN$NNVVIII$NNNFI******.II..*:..I..:*..II.******IINNNNIIIVV$N$NN$:........
+.......*$$*.:$VVF$I$NNNI*I***I**$$IINVIINIIVNII$$**I:**I*INNNNI$VVV$*.:I*.........
+.......:*::*$N$V$NVIVN$***:*:IV*INI:*$**V**$*:INI*VI.*:***$$$FV$$V$N$*:.*:........
+......:**INNNN$VVN$IVV*II***::I:*V*.:I::*::I:.*V*:I:.***II*F$IVN$V$NNNNV*::.......
+.....:*I$VI**:..*NN$I$N*F$II*:I**F$IV$VF$FF$VI$V**I::II$$*$$I$NNI..:**IV$VI*......
+....:***::::*III$NNNNVNF*$$NVI$$$NNNNN$$$$$NNNNN$$$IFN$$**NV$NNN$II*:::::***:.....
+.............*VNNNNNNNNNII$$NNNNN$$$$$$$$$$$$$$$NNNN$$$I*$NNNNNNNV*...............
+..............:*V$N$**$NNNN$N$$$NNNNNNN$$$NNNNNNNN$$N$NN$N$*:I$V*:................
+.................:**.*$IIIV$V$$$$$$$$$$$$$$$$$$$$$$$VVVIII$*.*:...................
+...................*.VNNI**I$$$$$$$$$$$$$$$$$$$$$$$$VI**INN$:::...................
+...................**N$*:**IIIVVV$$II*I$$$I*IV$VVVII****:*$NI*:...................
+...................*II*:::..::***III:.:$NN*.:II***::...::::I$*:...................
+...................**:..............:*:*NV:*:..............::*....................
+.....................................:**$**:......................................
+.......................................:I*:.......................................
+........................................::........................................
+</pre>
+
+	<div id="matchDiv">
+	<h2 id="roundNumberH"></h2>
+	<h3 id="hitIndicator"></h3>
+	<h3 id="roundWinnerH"></h3>
+	<button id="nextRoundButton">Start Next Round</button>
+	</div>
+	<div id="dogDetailsDiv">
+	<h2 id="enterNames">Enter Details of Dog Combatants</h2>
+		<div id="dog1EnterDiv">
+			<label class="dog1Details">Dog 1:</label>
+			<input type="text" name="" id="dogGetName1" class="textBoxName" class="dog1Details"placeholder="Name"><br>
+			<label class="dog1Details">Breed:</label>
+			<select id="dogType1" class="dog1Details">
+				<option value=””>Rottweiler</option>
+				<option value=””>Chihuahua</option>
+			</select><br>
+			<label class="dog1Details">Fighting Style:</label>
+			<select id="dogStyleSelect1" class="dog1Details">
+				<option value=””>Cautious</option>
+					 <option value=””>Reckless</option>
+			</select>
+		</div>
+		<div id="dog2EnterDiv">
+			<input type="text" name="" id="dogGetName2" class="textBoxName" class="dog2Details" placeholder="Name"><label>Dog 2:</label><br>
+			<select id="dogType2" class="dog2Details">
+				<option value=””>Rottweiler</option>
+				<option value=””>Chihuahua</option>
+			</select><label class="dog2Details">Breed:</label><br>
+			<select id="dogStyleSelect2" class="dog2Details">
+				<option value=””>Cautious</option>
+				<option value=””>Reckless</option>
+			</select>
+			<label class="dog2Details">Fighting Style:</label>
+		</div>
+		<button id="submitButton">Submit</button>
+		</div>
+		<div id="dog1Div">
+			<h3 class="dogFighterH">Dog Fighter 1</h3>
+			<ul>
+				<li id="dog1NameP"></li>
+				<li id="dog1StyleP"></li>
+				<li id="dog1StaminaP">Stamina: 100%</li>
+				<li id="dog1HealthP"></li>
+		</ul>
+	</div>
+
+		<div id="dog2Div">
+			<h3 class="dogFighterH">Dog Fighter 2</h3>
+			<ul>
+				<li id="dog2NameP"></li>
+				<li id="dog2StyleP"></li>
+				<li id="dog2StaminaP">Stamina: 100%</li>
+				<li id="dog2HealthP"></li>
+			</ul>
+		</div>
+		<button id="coinButton">Flip Coin</button><br>
+		<h3 id="dogTurnHeading"></h3>
+		<button id="fightButton">Fight</button>
+</div>
+</body>
+
+<script type="text/javascript">
+
+	var dogs = [];
+	var dog1Name;
+	var dog2Name;
+	var dog1BreedMenu = document.getElementById("dogType1");
+	var dog2BreedMenu = document.getElementById("dogType2");
+	var dog1Breed = dog1BreedMenu.options[dog1BreedMenu.selectedIndex].text;
+	var dog2Breed = dog2BreedMenu.options[dog2BreedMenu.selectedIndex].text;
+	var dog1StyleMenu = document.getElementById("dogStyleSelect1");
+	var dog2StyleMenu = document.getElementById("dogStyleSelect2");
+	var dog1Style = dog1StyleMenu.options[dog1StyleMenu.selectedIndex].text;
+	var dog2Style = dog2StyleMenu.options[dog2StyleMenu.selectedIndex].text;
+	var dog1Hit = 0;
+	var dog2Hit = 0;
+	var dog1Stamina = 100;
+	var dog2Stamina = 100;
+	var dog1Health;
+	var dog2Health;
+	var dogTurn = 1;
+	var roundCount = 0;
+	var hitDescription;
+
+	document.getElementById("submitButton").onclick = function() {
+			dog1Breed = dog1BreedMenu.options[dog1BreedMenu.selectedIndex].text;
+			dog2Breed = dog2BreedMenu.options[dog2BreedMenu.selectedIndex].text;
+			dog1Style = dog1StyleMenu.options[dog1StyleMenu.selectedIndex].text;
+			dog2Style = dog2StyleMenu.options[dog2StyleMenu.selectedIndex].text;
+
+			if (document.getElementById("dogGetName1").value == "") {
+				alert("Please enter Dog 1 name")	
+			} else if (document.getElementById("dogGetName2").value == "") {
+				alert("Please enter Dog 2 name")
+			} else {
+
+			document.getElementById("dogDetailsDiv").style.display = "none";
+			document.getElementById("dog1Div").style.display = "initial";
+			document.getElementById("dog2Div").style.display = "initial";
+
+			dog1Name = document.getElementById("dogGetName1").value;
+			dog2Name = document.getElementById("dogGetName2").value;
+
+			if (dog1Breed == "Rottweiler") {
+				dog1Health = 1000;
+			} else if (dog1Breed == "Chihuahua") {
+				dog1Health = 500;
+			}
+
+			if (dog2Breed == "Rottweiler") {
+				dog2Health = 1000;
+			} else if (dog2Breed == "Chihuahua") {
+				dog2Health = 500;
+			}
+
+			document.getElementById("dog1NameP").innerHTML = dog1Name;
+			document.getElementById("dog2NameP").innerHTML = dog2Name;
+			document.getElementById("dog1StyleP").innerHTML = dog1Style + " " + dog1Breed;
+			document.getElementById("dog2StyleP").innerHTML = dog2Style + " " + dog2Breed;
+			document.getElementById("dog1HealthP").innerHTML = "Health: " + dog1Health;
+			document.getElementById("dog2HealthP").innerHTML = "Health: " + dog2Health;
+			document.getElementById("coinButton").style.visibility = "visible";
+
+			var dogName1 = document.getElementById("dogGetName1").value;
+			var dogName2 = document.getElementById("dogGetName2").value;
+		    dogs.push(dogName1, dogName2);
+
+		    console.log(dogs);
+
+		    // document.getElementById("dogBark").play();
+
+		//     document.getElementById("nameEnterDiv").style.display = "none";
+		//     document.getElementById("dogCombatDiv").style.display = "block";
+		}
+		}
+document.getElementById("coinButton").onclick = function() {
+
+			dogTurn = Math.floor((Math.random() * 2) + 1);
+			console.log(dogTurn);
+
+				if (dogTurn == 1) { 
+					document.getElementById("dogTurnHeading").innerHTML = "Dog Fighter 1's Turn";
+				} if (dogTurn == 2) {
+
+					document.getElementById("dogTurnHeading").innerHTML = "Dog Fighter 2's Turn";
+				}
+			document.getElementById("coinButton").style.display = "none";		
+			document.getElementById("fightButton").style.visibility = "visible";
+			roundCount = 1;
+			document.getElementById("roundNumberH").innerHTML = "Round " + roundCount;
+			document.getElementById("matchDiv").style.display = "initial";	
+			document.getElementById("roundWinnerH").style.visibility = "hidden";	
+}	
+
+
+document.getElementById("fightButton").onclick = function() {
+
+		document.getElementById("roundWinnerH").innerHTML = "";
+		document.getElementById("dog1Div").style.visibility = "visible";
+		document.getElementById("dog2Div").style.visibility = "visible";
+		document.getElementById("dogTurnHeading").style.visibility = "visible";
+
+	if (dogTurn == 1) {
+			dog1Hit = Math.floor((Math.random() * 5) + 1);
+			if (dog1Hit < 5 && dog1Hit > 1) {
+				dog2Stamina = dog2Stamina - 20;
+				dog2Health = dog2Health - 20;
+				hitStrength = 20;
+				hitDescription = "Weak Hit:";
+			}
+			else if (dog1Hit == 5) {	
+				dog2Stamina = dog2Stamina - 50;
+				dog2Health = dog2Health - 50;
+				hitStrength =  50;
+				hitDescription = "Critical Hit! "
+			}
+			else if (dog1Hit == 1)  { 
+				hitStrength =  0;
+				hitDescription = "Miss! "
+
+			}
+		console.log(dog1Hit);
+		document.getElementById("dog2StaminaP").innerHTML = "Stamina: " + dog2Stamina + "%";
+		document.getElementById("dog2HealthP").innerHTML = "Health: " + dog2Health;
+		document.getElementById("hitIndicator").style.color = "red";
+		document.getElementById("hitIndicator").innerHTML = hitDescription + " " + hitStrength + " damage dealt by " + dog1Name;
+		dogTurn = 2;
+		document.getElementById("dogTurnHeading").innerHTML = "Dog Fighter 2's Turn";
+	}
+		
+
+	else if (dogTurn == 2) {
+			dog2Hit = Math.floor((Math.random() * 5) + 1);
+				if (dog2Hit < 5 && dog2Hit > 1) {
+					dog1Stamina = dog1Stamina - 20;
+					dog1Health = dog1Health - 20;
+					hitStrength = 20;
+					hitDescription = "Weak Hit: "
+			}   else if (dog2Hit == 5) {	
+					dog1Stamina = dog1Stamina - 50;
+					dog1Health = dog1Health - 50;
+					hitStrength = 50;
+					hitDescription = "Critical Hit! "
+			}	else if (dog2Hit == 1) {
+					hitStrength =  0;
+					hitDescription = "Miss! "
+			}
+		
+		console.log(dog2Hit);
+		document.getElementById("dog1StaminaP").innerHTML = "Stamina: " + dog1Stamina + "%";
+		document.getElementById("dog1HealthP").innerHTML = "Health: " + dog1Health;
+		document.getElementById("hitIndicator").style.color = "blue";
+		document.getElementById("hitIndicator").innerHTML = hitDescription + " " + hitStrength + " damage dealt by " + dog2Name;
+		dogTurn = 1;
+		document.getElementById("dogTurnHeading").innerHTML = "Dog Fighter 1's Turn";
+
+	}
+		
+
+	if (dog1Stamina < dog2Stamina && dog1Stamina > 0) {
+		document.getElementById("hitIndicator").innerHTML = document.getElementById("hitIndicator").innerHTML + "<br> Dog Fighter 2 is winning the round";
+
+	}
+	else if (dog2Stamina < dog1Stamina && dog2Stamina > 0) {
+		document.getElementById("hitIndicator").innerHTML = document.getElementById("hitIndicator").innerHTML + "<br> Dog Fighter 1 is winning the round";
+	} 
+	else if (dog1Stamina == dog2Stamina && dog1Stamina > 0) { document.getElementById("hitIndicator").innerHTML = document.getElementById("hitIndicator").innerHTML + "<br> Round is currently tied";
+
+// 	}
+// 	if (dog1Health < dog1Health && dog1Health > 0) {
+// 		document.getElementById("hitIndicator").innerHTML = document.getElementById("hitIndicator").innerHTML + "<br> Dog Fighter 2 is winning the match";
+
+// 	}
+// 	else if (dog2Health < dog1Health && dog2Health > 0) {
+// 		document.getElementById("hitIndicator").innerHTML = document.getElementById("hitIndicator").innerHTML + "<br> Dog Fighter 1 is winning the match";
+// 	} 
+// 	else if (dog1Health == dog2Health && dog1Health > 0) { document.getElementById("hitIndicator").innerHTML = document.getElementById("hitIndicator").innerHTML + "<br> Match is currently tied";
+ }
+
+	if (dog1Stamina <= 0) {
+
+
+		document.getElementById("dog1Div").style.visibility = "hidden";
+		document.getElementById("dog2Div").style.visibility = "hidden";
+		document.getElementById("dogTurnHeading").style.visibility = "hidden";
+		document.getElementById("fightButton").style.display = "none";
+		document.getElementById("nextRoundButton").style.display = "flex";
+		document.getElementById("roundWinnerH").style.visibility = "visible";	
+		document.getElementById("roundWinnerH").innerHTML = "Dog Fighter 2 Wins Round " + roundCount;
+		
+	}
+
+	if (dog2Stamina <= 0) {
+		document.getElementById("dog1Div").style.visibility = "hidden";
+		document.getElementById("dog2Div").style.visibility = "hidden";
+		document.getElementById("dogTurnHeading").style.visibility = "hidden";
+		document.getElementById("fightButton").style.display = "none";
+		document.getElementById("nextRoundButton").style.display = "flex";
+		document.getElementById("roundWinnerH").style.visibility = "visible";
+		document.getElementById("roundWinnerH").innerHTML = "Dog Fighter 1 Wins Round " + roundCount;
+		
+	}
+
+	if (dog1Health <= 0) {
+		document.getElementById("hitIndicator").style.visibility = "hidden"
+		document.getElementById("dog1Div").style.visibility = "hidden";
+		document.getElementById("dog2Div").style.visibility = "hidden";
+		document.getElementById("dogTurnHeading").style.visibility = "hidden";
+		document.getElementById("fightButton").style.display = "none";
+		document.getElementById("roundWinnerH").style.visibility = "visible";
+		document.getElementById("roundNumberH").style.visibility = "hidden";
+		document.getElementById("roundWinnerH").innerHTML = "Dog Fighter 1 is Dead";
+		document.getElementById("nextRoundButton").style.display = "none";
+		
+	}
+
+	if (dog2Health <= 0) {
+		document.getElementById("hitIndicator").style.visibility = "hidden"
+		document.getElementById("dog1Div").style.visibility = "hidden";
+		document.getElementById("dog2Div").style.visibility = "hidden";
+		document.getElementById("dogTurnHeading").style.visibility = "hidden";
+		document.getElementById("fightButton").style.display = "none";
+		document.getElementById("roundWinnerH").style.visibility = "visible";
+		document.getElementById("roundNumberH").style.visibility = "hidden";
+		document.getElementById("roundWinnerH").innerHTML = "Dog Fighter 2 is Dead";
+		document.getElementById("nextRoundButton").style.display = "none";
+		
+	}
+}
+
+	document.getElementById("nextRoundButton").onclick = function() {
+		roundCount ++;
+		console.log(roundCount);
+		dog1Stamina = 100;
+		dog2Stamina = 100;
+		document.getElementById("nextRoundButton").style.display = "none";
+		document.getElementById("roundWinnerH").innerHTML = "";
+		document.getElementById("roundWinnerH").style.visibility = "hidden";	
+		document.getElementById("dog1Div").style.visibility = "visible";
+		document.getElementById("dog2Div").style.visibility = "visible";
+		document.getElementById("dogTurnHeading").style.visibility = "visible";
+		document.getElementById("dog1StaminaP").innerHTML = "Stamina: " + dog1Stamina + "%";
+		document.getElementById("dog2StaminaP").innerHTML = "Stamina: " + dog2Stamina + "%";
+		document.getElementById("roundNumberH").innerHTML = "Round " + roundCount;
+		document.getElementById("fightButton").style.display = "initial";
+		document.getElementById("hitIndicator").innerHTML = ""
+
+
+	
+}
+</script>
+
+</html>
